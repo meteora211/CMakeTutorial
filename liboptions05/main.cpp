@@ -1,39 +1,56 @@
 #include <iostream>
-#include <adder.h>
-#include <xbyak/xbyak.h>
+#include <lib_configure.h>
 
-struct FloatAdd : Xbyak::CodeGenerator {
-  FloatAdd() {
-    mov(eax, 1);
-    ret();
-  }
-};
-
+#ifdef USE_XBYAK
 class AddFunc : public Xbyak::CodeGenerator {
     void operator=(const AddFunc&);
 public:
     AddFunc()
     {
-        /* mov(eax, ptr [esp + 4]); */
-        /* add(eax, y); */
-        /* lea(rax, ptr [rdi + y]); */
-        movss(xmm0, rdi);
-        movss(xmm1, rsi);
-        /* movss(xmm1, y); */
-        addss(xmm0, xmm1);
-        /* movss(rax, xmm0); */
-        ret();
+      /* movsd(xmm0, ptr [rsp + 8]); */
+      /* movsd(ptr [rsp + 8], xmm0); */
+      /* mov(rax, ptr [rsp + 8]); */
+      /* mov(rax, ptr [rsp + 8]); */
+      /* addss(xmm0, ptr [rsp + 16]); */
+      /* movss(rax, xmm0); */
+      /* add(eax, y); */
+      /* lea(rax, ptr [rdi + y]); */
+      /* movss(xmm0, ptr[rdi]); */
+      /* movss(xmm1, rsi); */
+      /* movss(xmm1, y); */
+      /* addss(xmm0, xmm1); */
+      /* mov(rax, rdi); */
+      /* movq(rax, xmm0); */
+      /* ret(); */
+
+
+      // INT ADD
+      mov(eax, edi);
+      add(eax, esi);
+      ret();
     }
-    float (*get() const)(float, float) { return getCode<float(*)(float, float)>(); }
+    /* double (*get() const)(double*) { return getCode<double(*)(double, double)>(); } */
+    /* float (*get() const)(float, float) { return getCode<float(*)(float, float)>(); } */
+    int (*get() const)(int, int) { return getCode<int(*)(int, int)>(); }
 };
+#endif
 
 int main() {
   std::cout << "hello" << std::endl;
 
+#ifdef USE_ADDER
   std::cout << add(72.1f, 73.8f) << std::endl;
+#else
+  std::cout << "do not use adder." << std::endl;
+#endif
 
+#ifdef USE_XBYAK
   AddFunc a;
-  float (*f)(float, float) = a.get();
-  /* float (*f)(float, float) = c.getCode<float (*)(float, float)>(); */
-  std::cout << "ret=" << f(5.1, 3.2) << std::endl;
+  /* double (*f)(double, double) = a.get(); */
+  /* float (*f)(float, float) = a.get(); */
+  int (*f)(int, int) = a.get();
+  std::cout << "ret=" << f(3, 5) << std::endl;
+#else
+  std::cout << "do not use xybak" << std::endl;
+#endif
 }
