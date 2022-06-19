@@ -21,6 +21,7 @@ endif()
 if(USE_ADDER)
   list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/adder/")
   list(APPEND EXTRA_LIBS adder)
+  list(APPEND EXTRA_LINKS adder)
 endif()
 
 message(STATUS "includes: ${EXTRA_INCLUDES}" )
@@ -28,4 +29,4 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${EXTRA_INCLUDES} ${PROJECT_BI
 
 target_link_directories(${PROJECT_NAME} PUBLIC ${EXTRA_LIBS})
 
-target_link_libraries(${PROJECT_NAME} adder)
+target_link_libraries(${PROJECT_NAME} ${EXTRA_LINKS})
