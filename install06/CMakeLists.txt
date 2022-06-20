@@ -30,3 +30,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${EXTRA_INCLUDES} ${PROJECT_BI
 target_link_directories(${PROJECT_NAME} PUBLIC ${EXTRA_LIBS})
 
 target_link_libraries(${PROJECT_NAME} ${EXTRA_LINKS})
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/lib_configure.h" DESTINATION include)
