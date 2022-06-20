@@ -1,0 +1,10 @@
+#cmakedefine USE_XBYAK
+#cmakedefine USE_ADDER
+
+#ifdef USE_ADDER
+#include <adder.h>
+#endif
+
+#ifdef USE_XBYAK
+#include <xbyak/xbyak.h>
+#endif
