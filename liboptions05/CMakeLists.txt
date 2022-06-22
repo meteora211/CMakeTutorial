@@ -7,6 +7,15 @@ configure_file(lib_configure.h.in lib_configure.h)
 option(USE_XBYAK "use xybak to do add." ON)
 option(USE_ADDER "use adder." ON)
 
+find_library(MyOpenMPLib NAMES omp gomp DOC "libomp location")
+find_path(MyOpenMPDir NAMES omp.h DOC "libomp includes")
+if(MyOpenMPLib)
+  message(WARNING "OpenMP Lib found! path = ${MyOpenMPLib}")
+endif()
+if(MyOpenMPDir)
+  message(WARNING "OpenMP Path found! path = ${MyOpenMPDir}")
+endif()
+
 add_executable(${PROJECT_NAME} main.cpp)
 
 add_subdirectory(adder)
